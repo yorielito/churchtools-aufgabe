@@ -1,0 +1,168 @@
+<!-- <template>
+  <fwb-button @click="showModal"> Aktualisieren </fwb-button>
+
+  <fwb-modal position="center" size="xs" v-if="isShowModal" @close="showModal">
+    <template #header>
+      <div class="flex items-center text-lg">Daten aktualisieren</div>
+    </template>
+    <template #body>
+      <div class="grid grid-cols-1 gap-2 mb-4">
+        <input type="text" v-model="person.firstName" />
+        <input type="text" v-model="person.lastName" />
+        <input type="email" v-model="person.email" />
+        <input type="email" v-model="person.mobile" />
+        <input type="text" v-model="person.street" />
+        <input type="text" v-model="person.zip" />
+        <input type="text" v-model="person.city" />
+        <input type="text" v-model="person.country" />
+        <input type="text" v-model="person.sexId" />
+        <input type="number" v-model="person.statusId" />
+        <input type="number" v-model="person.secLevel" />
+      </div>
+    </template>
+    <template #footer>
+      <div class="w-full flex justify-center pb-4">
+        <div class="w-64 gap-2 flex flex-col">
+          <fwb-button @click="updatePerson" color="green" class="bg-blue-600">
+            Speichern
+          </fwb-button>
+          <fwb-button @click="showModal" class="bg-red-500">
+            Cancel
+          </fwb-button>
+        </div>
+      </div>
+    </template>
+  </fwb-modal>
+</template> -->
+<!-- 
+<script setup>
+import { FwbButton, FwbModal } from "flowbite-vue";
+
+defineProps({
+  person: Object,
+  updatePerson: Function,
+  showModal: Function,
+  isShowModal: Boolean,
+});
+</script> -->
+
+<template>
+  <button
+    data-modal-target="authentication-modal"
+    data-modal-toggle="authentication-modal"
+    class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    type="button"
+  >
+    Neue Person hinzufügen
+  </button>
+
+  <!-- Main modal -->
+  <div
+    id="authentication-modal"
+    tabindex="-1"
+    aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  >
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <!-- Modal header -->
+        <div
+          class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
+        >
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            Neue Person hinzufügen
+          </h3>
+          <button
+            type="button"
+            class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            data-modal-hide="authentication-modal"
+          >
+            <svg
+              class="w-3 h-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 14"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+              />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <!-- Modal body -->
+        <div class="p-4 md:p-5">
+          <form
+            class="flex flex-col items-center"
+            @submit.prevent="addNewPerson"
+          >
+            <div class="flex flex-col gap-2 mb-4 w-full">
+              <input type="text" v-model="person.firstName" />
+              <input type="text" v-model="person.lastName" />
+              <input type="email" v-model="person.email" />
+              <input type="text" v-model="person.mobile" />
+              <input type="text" v-model="person.street" />
+              <input type="text" v-model="person.zip" />
+              <input type="text" v-model="person.city" />
+              <input type="text" v-model="person.country" />
+              <input type="number" v-model="person.sexId" />
+              <input type="number" v-model="person.statusId" />
+              <input type="number" v-model="person.secLevel" />
+            </div>
+
+            <div class="flex flex-col gap-2 max-w-96 w-4/5">
+              <button
+                type="submit"
+                @click="updatePerson"
+                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Speichern
+              </button>
+              <button
+                type="button"
+                data-modal-hide="authentication-modal"
+                class="w-full text-white bg-red-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Abbrechen
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { initModals } from "flowbite";
+import { onMounted } from "vue";
+
+onMounted(() => {
+  initModals();
+});
+
+defineProps({
+  person: Object,
+  updatePerson: Function,
+
+  emits: [
+    "update:firstName",
+    "update:lastName",
+    "update:mobil",
+    "update:email",
+    "update:street",
+    "update:zip",
+    "update:city",
+    "update:country",
+    "update:sexId",
+    "update:statusId",
+    "update:secLevel",
+  ],
+});
+</script>
