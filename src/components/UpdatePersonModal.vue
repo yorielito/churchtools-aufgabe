@@ -1,51 +1,3 @@
-<!-- <template>
-  <fwb-button @click="showModal"> Aktualisieren </fwb-button>
-
-  <fwb-modal position="center" size="xs" v-if="isShowModal" @close="showModal">
-    <template #header>
-      <div class="flex items-center text-lg">Daten aktualisieren</div>
-    </template>
-    <template #body>
-      <div class="grid grid-cols-1 gap-2 mb-4">
-        <input type="text" v-model="person.firstName" />
-        <input type="text" v-model="person.lastName" />
-        <input type="email" v-model="person.email" />
-        <input type="email" v-model="person.mobile" />
-        <input type="text" v-model="person.street" />
-        <input type="text" v-model="person.zip" />
-        <input type="text" v-model="person.city" />
-        <input type="text" v-model="person.country" />
-        <input type="text" v-model="person.sexId" />
-        <input type="number" v-model="person.statusId" />
-        <input type="number" v-model="person.secLevel" />
-      </div>
-    </template>
-    <template #footer>
-      <div class="w-full flex justify-center pb-4">
-        <div class="w-64 gap-2 flex flex-col">
-          <fwb-button @click="updatePerson" color="green" class="bg-blue-600">
-            Speichern
-          </fwb-button>
-          <fwb-button @click="showModal" class="bg-red-500">
-            Cancel
-          </fwb-button>
-        </div>
-      </div>
-    </template>
-  </fwb-modal>
-</template> -->
-<!-- 
-<script setup>
-import { FwbButton, FwbModal } from "flowbite-vue";
-
-defineProps({
-  person: Object,
-  updatePerson: Function,
-  showModal: Function,
-  isShowModal: Boolean,
-});
-</script> -->
-
 <template>
   <button
     data-modal-target="authentication-modal"
@@ -71,7 +23,7 @@ defineProps({
           class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
         >
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-            Neue Person hinzufügen
+            Person aktualisieren
           </h3>
           <button
             type="button"

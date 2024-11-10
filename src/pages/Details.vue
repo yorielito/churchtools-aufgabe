@@ -1,7 +1,7 @@
 <script>
 import UpdatePersonModal from "../components/UpdatePersonModal.vue";
-import persons from "../data.json";
 import { useRoute } from "vue-router";
+import { getPersonById, putPerson } from "../api/persons";
 
 export default {
   data() {
@@ -19,19 +19,22 @@ export default {
   },
 
   methods: {
-    getPersonDetails() {
+   async getPersonDetails() {
       const route = useRoute();
-      this.person = persons.data.find(
-        (person) => person.id == parseInt(route.params.id)
-      );
+      try {
+        this.person = await getPersonById(route.params.id);
+      } catch (error) {
+        console.error(error);
+      }
     },
 
-    updatePerson(person) {
-      // Update the person in the database and redirect to the details page
-      const index = persons.data.findIndex((p) => p.id === person.id);
-      persons.data[index] = person;
+    async updatePerson(person) {
+      try {
+        await putPerson(person);
+      } catch (error) {
+        console.error(error);
+      }
 
-      this.$router.push({ name: "/details/", params: { id: person.id } });
     },
   },
 };
@@ -46,7 +49,7 @@ export default {
           class="w-full h-64"
           width="100"
           height="100"
-          :src="person.imageUrl || ''"
+          :src="person?.imageUrl"
           alt="User Bild"
         />
       </div>

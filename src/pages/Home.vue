@@ -1,33 +1,38 @@
 <script>
-import persons from "../data.json";
 import PersonCard from "../components/PersonCard.vue";
 import NeuePersonModal from "../components/NeuePersonModal.vue";
 import Pagination from "../components/Pagination.vue";
+import {
+  getPersons,
+  getPersonsByPage,
+  getPersonsFilteredByStatus,
+  postPerson,
+} from "../api/persons";
 
 export default {
   components: {
     PersonCard,
     NeuePersonModal,
-    Pagination
+    Pagination,
   },
 
   data() {
     return {
       persons: [],
-      statusId: null,
       firstName: "",
       lastName: "",
+      mobile: "",
       email: "",
       street: "",
       zip: "",
       city: "",
       country: "",
-      sexId: "",
-      statusId: "",
-      secLevel: "",
+      sexId: 0,
+      statusId: 0,
+      secLevel: 0,
       id: "",
       isShowModal: false,
-      currentPage: 1, 
+      currentPage: 1,
     };
   },
 
@@ -37,25 +42,36 @@ export default {
 
   methods: {
     async getPersonsApi() {
-      // const persons = await getPersons()
-      // this.data = persons
-
-      this.persons = persons.data;
+      try {
+        const persons = await getPersons();
+        this.persons = persons;
+      } catch (error) {
+        console.log(error);
+      }
     },
 
-    async getPersonsByPageApi(pageNumber) {
-      // const persons = await getPersonsByPage(pageNumber)
-      // this.data = persons
-
-      this.persons = persons.data;
+    async getPersonsByPageNumber(pageNumber) {
+      pageNumber = pageNumber < 1 ? 1 : pageNumber;
+      this.currentPage = pageNumber;
+      try {
+        const persons = await getPersonsByPage(pageNumber);
+        this.persons = persons;
+      } catch (error) {
+        console.log(error);
+      }
     },
 
-    filterPersonsStatus(num) {
-      this.persons = persons.data.filter((person) => person.statusId === num);
+    async filterPersonsStatus(statusId) {
+      try {
+        const personsFiltered = getPersonsFilteredByStatus(statusId, this.currentPage);
+        this.persons = personsFiltered;
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     addNewPerson() {
-      this.persons.push({
+      const newPerson = {
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,
@@ -66,12 +82,14 @@ export default {
         sexId: this.sexId,
         statusId: this.statusId,
         secLevel: this.secLevel,
-        id: this.persons.length + 1,
-      });
-    },
+      };
 
-    showModal() {
-      this.isShowModal = !this.isShowModal;
+      try {
+        postPerson(newPerson);
+        window.location.reload();
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
@@ -86,6 +104,7 @@ export default {
           :addNewPerson="addNewPerson"
           v-model:firstName="firstName"
           v-model:lastName="lastName"
+          v-model:mobile="mobile"
           v-model:email="email"
           v-model:street="street"
           v-model:zip="zip"
@@ -121,9 +140,9 @@ export default {
         </RouterLink>
       </li>
     </div>
-    <Pagination 
+    <Pagination
       :currentPage="currentPage"
-      :getPersonsByPageApi="getPersonsByPageApi"
+      :getPersonsByPageApi="getPersonsByPageNumber"
     />
   </section>
 </template>

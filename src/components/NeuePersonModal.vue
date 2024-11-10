@@ -71,7 +71,7 @@
                 placeholder="E-Mail"
               />
               <input
-                :value="email"
+                :value="mobile"
                 @input="$emit('update:mobile', $event.target.value)"
                 type="tel"
                 placeholder="Telephon"
@@ -103,7 +103,7 @@
               <input
                 :value="sexId"
                 @input="$emit('update:sexId', $event.target.value)"
-                type="text"
+                type="number"
                 placeholder="Geschlecht"
               />
               <input
@@ -156,15 +156,15 @@ defineProps({
   person: Object,
   firstName: String,
   lastName: String,
-  mobil: String,
+  mobile: String,
   email: String,
   street: String,
   zip: String,
   city: String,
   country: String,
-  sexId: String,
+  sexId: Number,
   statusId: Number,
-  secLevel: String,
+  secLevel: Number,
 
 
   emits: [
