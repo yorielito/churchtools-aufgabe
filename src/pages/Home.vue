@@ -63,7 +63,10 @@ export default {
 
     async filterPersonsStatus(statusId) {
       try {
-        const personsFiltered = getPersonsFilteredByStatus(statusId, this.currentPage);
+        const personsFiltered = getPersonsFilteredByStatus(
+          statusId,
+          this.currentPage
+        );
         this.persons = personsFiltered;
       } catch (error) {
         console.log(error);
@@ -98,8 +101,8 @@ export default {
 <template>
   <section class="w-full flex flex-col items-center">
     <h1 class="font-bold text-2xl mb-4">Personen von ChurchTools</h1>
-    <div class="w-full flex justify-center mb-4">
-      <div class="w-4/5 grid grid-cols-grid-col gap-4">
+    <div class="w-full flex items-center bg-gray-200 p-10 rounded-lg flex-col max-w-96 gap-4 justify-center mb-4">
+      <div>
         <NeuePersonModal
           :addNewPerson="addNewPerson"
           v-model:firstName="firstName"
@@ -114,14 +117,17 @@ export default {
           v-model:statusId="statusId"
           v-model:secLevel="secLevel"
         />
+      </div>
+      <div class="flex flex-col gap-2">
         <input
+          class="rounded-lg"
           type="number"
           min="0"
           v-model="statusId"
           placeholder="Status ID"
         />
         <button
-          class="text-center bg-blue-600 rounded-lg text-white font-bold p-2"
+          class="text-center border border-gray-400 rounded-lg text-black p-2"
           @click="filterPersonsStatus(statusId)"
         >
           Filtern nach Status

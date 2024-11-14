@@ -1,4 +1,5 @@
 const { churchtoolsClient, activateLogging } = window.churchtoolsClient;
+// import {churchtoolsClient, activateLogging} from '@churchtools/churchtools-client';
 
 activateLogging();
 churchtoolsClient.setBaseUrl('https://jobs.church.tools');
